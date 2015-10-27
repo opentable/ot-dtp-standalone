@@ -1,0 +1,29 @@
+<% var extraCssClass = showSearch ? " with-search" : ""; %>
+<div class="dtp-picker hide dtp-lang-<%- language + extraCssClass %>">
+  <form class="dtp-picker-form">
+    <% if (timezoneOffset != null) %>
+      <input type="hidden" name="timezoneOffset"/>
+    <% } %>
+    <input type="text" class="date-picker dtp-picker-selector"/>
+    <select class="time-picker hide">
+      <% for (var i = 1; i < (showLargerParty ? 22 : 21); i++) { %>
+        <% isSelected = i === partySize; %>
+        <% var displayValue = partySizePlural.replace('{0}', i); %>
+
+        <% if (i === 1) { %>
+          <% displayValue = partySizeSingular.replace('{0}', i); %>
+        <% } else if(i === 21)  { %>
+          <% displayValue = partySizeLargerParty; %>
+        <% } %>
+
+        <% if(isSelected) %>
+          <option value=<%- i %> selected="selected"> <option>
+        <% else %>
+          <option value=<%- i %>> <%- displayValue %> <option>
+        <% } %>
+      <% } %>
+      <!-- incomplete -->
+    </select>
+    <input type="submit" class="button dtp-picker-button"/>
+  </form>
+</div>

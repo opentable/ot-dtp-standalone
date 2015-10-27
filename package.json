@@ -1,0 +1,24 @@
+{
+  "name": "ot-dtp-standalone",
+  "version": "0.1.1",
+  "description": "Standalone opentable date time partysize picker component, designed to work on external websites.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "DTP",
+    "component",
+    "date",
+    "time",
+    "party",
+    "size",
+    "picker"
+  ],
+  "author": "Max Gurewitz",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-webserver": "^0.9.1"
+  }
+}
