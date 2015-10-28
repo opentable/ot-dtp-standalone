@@ -12,3 +12,5 @@ _.each(taskFiles, function(taskFile, taskFileName) {
     gulp.task(taskName, dependencies, function(cb) { return taskValues.task(cb, gulp); });
   });
 });
+
+gulp.task('default', ['bundle:watch', 'connect:start']);
