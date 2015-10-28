@@ -19,6 +19,13 @@
   "license": "MIT",
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-webserver": "^0.9.1"
+    "gulp-connect": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-util": "^3.0.7",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "require-directory": "^2.1.1"
   }
 }
