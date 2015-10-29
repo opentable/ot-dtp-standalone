@@ -1,3 +1,6 @@
+var hg = require('mercury');
+var h = hg.h;
+
 function getInitialViewModel() {
   return {
     showSearch: false,
@@ -21,12 +24,24 @@ function getInitialViewModel() {
   }
 }
 
+function getAppState() {
+  return hg.state({
+    viewModel: hg.struct(getInitialViewModel()),
+    channels: {}
+  });
+}
+
+function render(state) {
+  return h('div', 'example' + state.viewModel.partySize);
+}
+
 module.exports = {
-  render: function(el) {
-    var initialViewModel = getInitialViewModel();
-    console.log('loc1', initialViewModel);
+  render: function(selector) {
+    var el = document.querySelector(selector);
+    hg.app(el, getAppState(), render);
   }
 };
+
 
 /**
  * Dtp - binds actions to events and sets the proper js to style menus
