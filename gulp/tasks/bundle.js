@@ -8,7 +8,7 @@ var source = require('vinyl-source-stream');
 var config = require('../config');
 var connect = require('gulp-connect');
 
-var bundlePath = path.join(__BASE, 'src', 'js', 'index.js');
+var bundlePath = path.join(__BASE, 'src', 'index.js');
 
 function bundle(bundler) {
   return bundler
