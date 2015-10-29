@@ -1,5 +1,30 @@
+function getInitialViewModel() {
+  return {
+    showSearch: false,
+    time: '23:30',
+    date: '2015-10-10',
+    partySize: 2,
+    timeOptions: [
+      {
+        value: '23:30',
+        displayValue: '23:30',
+      }
+    ],
+    partySizeSingular: '1 person',
+    partySizePlural: '2 people',
+    partySizeLargerParty: 'Larger party',
+    findATable: 'Find a Table',
+    autocompletePlaceholder: 'Location or Restaurant',
+    timezoneOffset: -420,
+    language: 'en',
+    showLargerParty: true
+  }
+}
+
 module.exports = {
   render: function(el) {
+    var initialViewModel = getInitialViewModel();
+    console.log('loc1', initialViewModel);
   }
 };
 
