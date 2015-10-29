@@ -24,7 +24,7 @@ function getInitialViewModel() {
   }
 }
 
-function getAppState() {
+function getInitialAppState() {
   return hg.state({
     viewModel: hg.struct(getInitialViewModel()),
     channels: {}
@@ -38,7 +38,7 @@ function render(state) {
 module.exports = {
   render: function(selector) {
     var el = document.querySelector(selector);
-    hg.app(el, getAppState(), render);
+    hg.app(el, getInitialAppState(), render);
   }
 };
 
@@ -851,3 +851,39 @@ module.exports = {
 //     });
 //   });
 // };
+//mixin partySizeDisplayValue(isSelected, i)
+  // - var displayValue = partySizePlural.replace('{0}', i);
+  // - if(i === 1)
+  //   - displayValue = partySizeSingular.replace('{0}', i);
+  // - else if(i === 21)
+  //   - displayValue = partySizeLargerParty;
+  // - if(isSelected)
+  //   option(value=i, selected="selected") #{displayValue}
+  // - else
+  //   option(value=i) #{displayValue}
+
+// - var extraCssClass = showSearch ? " with-search" : "";
+// div(class="dtp-picker hide dtp-lang-" + language + extraCssClass)
+  // form.dtp-picker-form
+  //   - if (timezoneOffset != null)
+  //     input(type="hidden", name="timezoneOffset", value=timezoneOffset)
+  //   select.party-size-picker.hide
+  //     - for (var i = 1; i < (showLargerParty ? 22 : 21); i++)
+  //       +partySizeDisplayValue((i === partySize), i)
+  //   input.date-picker.dtp-picker-selector(value=date, type="text")
+  //   select.time-picker.hide
+  //     - for (var i = 0; i < timeOptions.length; i++){
+  //       - var displayValue = timeOptions[i]["displayValue"];
+  //       - var value = timeOptions[i]["value"];
+  //       - var isSelected = value === time;
+  //       - if(isSelected)
+  //         option(value=value, selected="selected") #{displayValue}
+  //       - else
+  //         option(value=value) #{displayValue}
+  //     - }
+  //   - if(showSearch){
+  //     div.dtp-picker-search-container
+  //       div.dtp-picker-search-icon.icon-search
+  //       input.dtp-picker-search(type="text", name="searchText", value="", placeholder=autocompletePlaceholder, data-bind="")
+  //   - }
+  //   input.button.dtp-picker-button(type="submit", value=findATable)
