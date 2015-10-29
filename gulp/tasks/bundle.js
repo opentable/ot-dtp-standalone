@@ -31,7 +31,7 @@ module.exports.watch = {
       standalone: config.standaloneName
     };
 
-    var bundler = browserify(bundlePath);
+    var bundler = browserify(bundlePath, browserifyOpts);
 
     var watchifier = watchify(bundler, { delay: 10 })
       .on('update', function updateBundle() {
