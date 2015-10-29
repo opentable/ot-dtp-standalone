@@ -1,6 +1,10 @@
 {
   "name": "ot-dtp-standalone",
   "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opentable/ot-dtp-standalone.git"
+  },
   "description": "Standalone opentable date time partysize picker component, designed to work on external websites.",
   "main": "lib/index.js",
   "scripts": {
@@ -28,6 +32,7 @@
   },
   "dependencies": {
     "lodash": "^3.10.1",
+    "mercury": "^14.0.0",
     "require-directory": "^2.1.1"
   }
 }
