@@ -33,6 +33,7 @@
   "dependencies": {
     "lodash": "^3.10.1",
     "mercury": "^14.0.0",
+    "ramda": "^0.18.0",
     "require-directory": "^2.1.1"
   }
 }

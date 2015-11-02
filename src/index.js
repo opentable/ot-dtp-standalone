@@ -1,5 +1,6 @@
 var hg = require('mercury');
 var h = hg.h;
+var dtpPickerForm = require('./components/dtp-picker-form');
 
 function getInitialViewModel() {
   return {
@@ -31,8 +32,9 @@ function getInitialAppState() {
   });
 }
 
+
 function render(state) {
-  return h('div', 'example' + state.viewModel.partySize);
+  return dtpPickerForm(state);
 }
 
 module.exports = {
@@ -41,6 +43,36 @@ module.exports = {
     hg.app(el, getInitialAppState(), render);
   }
 };
+
+// <% var extraCssClass = showSearch ? " with-search" : ""; %>
+// <div class="dtp-picker hide dtp-lang-<%- language + extraCssClass %>">
+//   <form class="dtp-picker-form">
+//     <% if (timezoneOffset != null) %>
+//       <input type="hidden" name="timezoneOffset"/>
+//     <% } %>
+//     <input type="text" class="date-picker dtp-picker-selector"/>
+//     <select class="time-picker hide">
+//       <% for (var i = 1; i < (showLargerParty ? 22 : 21); i++) { %>
+//         <% isSelected = i === partySize; %>
+//         <% var displayValue = partySizePlural.replace('{0}', i); %>
+
+//         <% if (i === 1) { %>
+//           <% displayValue = partySizeSingular.replace('{0}', i); %>
+//         <% } else if(i === 21)  { %>
+//           <% displayValue = partySizeLargerParty; %>
+//         <% } %>
+
+//         <% if(isSelected) %>
+//           <option value=<%- i %> selected="selected"> <option>
+//         <% else %>
+//           <option value=<%- i %>> <%- displayValue %> <option>
+//         <% } %>
+//       <% } %>
+//       <!-- incomplete -->
+//     </select>
+//     <input type="submit" class="button dtp-picker-button"/>
+//   </form>
+// </div>
 
 
 /**
@@ -887,3 +919,200 @@ module.exports = {
   //       input.dtp-picker-search(type="text", name="searchText", value="", placeholder=autocompletePlaceholder, data-bind="")
   //   - }
   //   input.button.dtp-picker-button(type="submit", value=findATable)
+  //
+  //
+  // //   /**
+ // * Select - transform an html select with options to a new designed one,
+ // * with styling, menus, handlers, etc.
+ // *
+ // */
+
+// OT.createNS('OT.Common.Select');
+
+// OT.Common.Select = (function($, _){
+  // 'use strict';
+
+  // var _data = {};
+
+  // var template = function(m){
+
+  //   var t =  '<div class="' + m.cssClass + ' dtp-picker-selector select-native'+ (m.unselectedOnInit ? " unselected-on-init" : '') +'">' +
+  //            '  <a class="select-label dtp-picker-selector-link" tabindex="-1">' + m.selectedValue + '</a>' +
+  //            '  <select name="' + m.name + '">';
+
+  //   for(var i = 0; i < m.options.length; i++){
+  //     var option =  m.options[i],
+  //         isChecked = option.selected ? " selected=\"selected\"" : '';
+
+  //     t += '    <option value="' + option.value + '"' + isChecked + '>' + option.display + '</option>';
+  //   }
+
+  //   t += '  </select>' +
+  //        '</div>';
+
+  //   return t;
+  // };
+
+  // var getUniqueName = function(){
+  //   var c = 0,
+  //       name = "Select_" + c;
+
+  //   while($("select[name='" + name + "']").length > 0){
+  //     c++;
+  //     name = "Select_" + c;
+  //   }
+
+  //   return name;
+  // };
+
+  // var getSelectModel = function($select){
+
+  //   var outerHtml = function($el){ return $("<div />").append($el.clone()).html(); },
+  //       unselectedOnInit = false;
+
+  //   var name = getUniqueName(),
+  //       model = {
+  //         name: name,
+  //         cssClass: $select.attr("class") || "",
+  //         unselectedOnInit: false,
+  //         options: _.map($select.find("option"), function(option){
+  //           var $option = $(option),
+  //               selected = $option.prop('selected');
+
+  //           if(!!selected && outerHtml($option).indexOf("selected") === -1){
+  //             unselectedOnInit = true;
+  //           }
+
+  //           return {
+  //             display: $option.text(),
+  //             value: $option.val(),
+  //             selected: selected
+  //           };
+  //         })
+  //       };
+
+  //   _data[name] = model.options;
+
+  //   var selected = _.findWhere(model.options, { selected: true });
+  //   model.selectedValue = !!selected ? selected.display : '';
+
+  //   if(model.selectedValue === '' || unselectedOnInit){
+  //     model.unselectedOnInit = true;
+  //   }
+
+  //   return model;
+  // };
+
+  // var transformSelect = function($select){
+  //   $select.addClass("hide");
+
+  //   var $parent = $select.parent(),
+  //       model = getSelectModel($select);
+
+  //   $select.after(template(model));
+  //   $select.remove();
+
+  //   var $newSelect = $parent.find("." + model.cssClass.replace(/ /g, '.')),
+  //       $label = $newSelect.find(".select-label");
+
+  //   $label.text(model.selectedValue);
+  //   $newSelect.removeClass("hide");
+
+  //   return $newSelect;
+  // };
+
+  // var select = {
+
+  //   get: function($select){
+  //     return $select.find("select").val();
+  //   },
+
+  //   hide: function($select, values){
+  //     if(!_.isArray(values)){
+  //       values = [values];
+  //     }
+
+  //     _.forEach(values, function(value){
+  //       var optionToHide = $select.find("option[value='" + value + "']");
+  //       if(optionToHide.length > 0){
+  //         optionToHide.remove();
+  //       }
+  //     });
+  //   },
+
+  //   info: function($select){
+  //     return {
+  //       unselectedOnInit: $select.hasClass("unselected-on-init")
+  //     };
+  //   },
+
+  //   init: function($select){
+  //     var $newSelect = transformSelect($select),
+  //         $label = $newSelect.find(".select-label"),
+  //         previousValue = $newSelect.find("select").val();
+
+  //     var refresh = function($select, checkIfChanged){
+  //       var selectedValue = $select.val(),
+  //           $selectedOption = $select.find("option[value='" + selectedValue + "']"),
+  //           selectedDisplayValue = $selectedOption.text();
+
+  //       if(!checkIfChanged || previousValue !== selectedValue){
+  //         $label.text(selectedDisplayValue);
+  //         previousValue = selectedValue;
+  //         OT.Events.fire("select:change", { sender: $select.parent() });
+  //       }
+  //     };
+
+  //     $newSelect.find('select').on('change', function(){
+  //       return refresh($(this));
+  //     }).on('keyup', function(){
+  //       return refresh($(this), true);
+  //     });
+
+  //     return $newSelect;
+  //   },
+
+  //   select: function($select, value){
+  //     var $selectedOption = $select.find("option[value='" + value + "']"),
+  //         $label = $select.find(".select-label");
+
+  //     $select.find("option").removeAttr("selected");
+  //     $select.find("select").val(value);
+  //     $label.text($selectedOption.text());
+
+  //     OT.Events.fire("select:change", { sender: $select });
+  //   },
+
+  //   showAll: function($select){
+  //     var selectName = $select.find("select").attr("name"),
+  //         initialOptions = _data[selectName] || [],
+  //         newOptions = "";
+
+  //     for(var i = 0; i < initialOptions.length; i++){
+  //       var option = initialOptions[i];
+  //       if($select.find("option[value='" + option.value + "']").length === 0){
+  //         newOptions += "<option value='" + option.value + "'>" + option.display + "</option>";
+  //       }
+  //     }
+
+  //     if(newOptions.length > 0){
+  //       $select.find("select").prepend(newOptions);
+  //     }
+  //   }
+  // };
+
+  // $.fn.OTselect = function(action, param){
+  //   if(!!select[action]){
+  //     return select[action](this, param);
+  //   }
+
+  //   return this;
+  // };
+
+  // return {
+  //   init: select.init,
+  //   get: select.get,
+  //   select: select.select
+  // };
+
+// })(jQuery, _);

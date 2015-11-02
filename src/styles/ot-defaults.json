@@ -1,0 +1,11 @@
+{
+  "boxSizing": "border-box",
+  "fontFamily": "\"source-sans-pro\",\"Helvetica Neue\",Helvetica,Arial,sans-serif",
+  "fontSize": "16px",
+  "fontStyle": "normal",
+  "fontWeight": "normal",
+  "lineHeight": "1.2em",
+  "margin": 0,
+  "padding": 0,
+  "position": "relative"
+}
