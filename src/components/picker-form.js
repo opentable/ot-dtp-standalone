@@ -5,7 +5,7 @@ var buildStyle = require('../build-style');
 
 module.exports = function dtpPickerForm(state) {
   return h('form', {
-    style: buildStyle()
+    style: buildStyle({ height: '3em' })
   }, [
     partySizePicker(state),
     datePicker(state)

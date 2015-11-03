@@ -1,0 +1,12 @@
+{
+  "overflow": "hidden",
+  "white-space": "nowrap",
+  "border": "1px solid transparent",
+  "display": "block",
+  "padding": "0.8125rem 1rem",
+  "color": "black",
+  "height": "3rem",
+  "z-index": 1,
+  "text-decoration": "none",
+  "background": "transparent",
+}

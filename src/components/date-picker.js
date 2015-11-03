@@ -3,8 +3,8 @@ var partySizePicker = require('./party-size-picker');
 var buildStyle = require('../build-style');
 
 var styles = {
-  datePicker: buildStyle({}),
-  datePickerLink: buildStyle({})
+  datePicker: buildStyle({}, ['pickerSelector']),
+  datePickerLink: buildStyle({}, ['pickerLabel'])
 };
 
 module.exports = function datePicker(state) {
@@ -13,6 +13,6 @@ module.exports = function datePicker(state) {
   }, [
     h('a', {
       style: styles.datePickerLink
-    }, state.viewModel.date),
+    }, 'Oct 29, 2015'),
   ]);
 }

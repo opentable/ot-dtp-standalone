@@ -1,6 +1,6 @@
 var hg = require('mercury');
 var h = hg.h;
-var dtpPickerForm = require('./components/dtp-picker-form');
+var pickerForm = require('./components/picker-form');
 
 function getInitialViewModel() {
   return {
@@ -34,7 +34,7 @@ function getInitialAppState() {
 
 
 function render(state) {
-  return dtpPickerForm(state);
+  return pickerForm(state);
 }
 
 module.exports = {
