@@ -3,7 +3,9 @@ var partySizePicker = require('./party-size-picker');
 var buildStyle = require('../build-style');
 
 var styles = {
-  datePicker: buildStyle({}, ['pickerSelector']),
+  datePicker: buildStyle({
+    borderLeft: '1px solid rgba(0,0,0,.08)'
+  }, ['pickerSelector']),
   datePickerLink: buildStyle({}, ['pickerLabel'])
 };
 
