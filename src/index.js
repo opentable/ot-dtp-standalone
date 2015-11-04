@@ -2,7 +2,7 @@ var hg = require('mercury');
 var h = hg.h;
 var pickerForm = require('./components/picker-form');
 
-function getInitialViewModel() {
+function buildInitialViewModel() {
   return {
     showSearch: false,
     time: '23:30',
@@ -27,7 +27,7 @@ function getInitialViewModel() {
 
 function getInitialAppState() {
   return hg.state({
-    viewModel: hg.struct(getInitialViewModel()),
+    viewModel: hg.struct(buildInitialViewModel()),
     channels: {}
   });
 }

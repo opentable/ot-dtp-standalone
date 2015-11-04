@@ -1,6 +1,6 @@
 var h = require('mercury').h;
-var partySizePicker = require('./party-size-picker');
-var buildStyle = require('../build-style');
+var buildStyle = require('../../build-style');
+var popUp = require('./pop-up');
 
 var styles = {
   datePicker: buildStyle({
@@ -16,5 +16,12 @@ module.exports = function datePicker(state) {
     h('a', {
       style: styles.datePickerLink
     }, 'Oct 29, 2015'),
+    popUp(state)
   ]);
 }
+
+// module.exports = {
+//   // render: ,
+//   // initialState: ,
+//   // channels: ,
+// }
