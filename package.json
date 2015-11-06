@@ -8,7 +8,7 @@
   "description": "Standalone opentable date time partysize picker component, designed to work on external websites.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "gulp test:unit"
   },
   "keywords": [
     "DTP",
@@ -23,8 +23,10 @@
   "license": "MIT",
   "devDependencies": {
     "browserify": "^12.0.0",
+    "chai": "^3.4.0",
     "gulp": "^3.9.0",
     "gulp-connect": "^2.2.0",
+    "gulp-mocha": "^2.1.3",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
     "vinyl-source-stream": "^1.1.0",
@@ -33,6 +35,7 @@
   "dependencies": {
     "lodash": "^3.10.1",
     "mercury": "^14.0.0",
+    "month-days": "^1.0.0",
     "ramda": "^0.18.0",
     "require-directory": "^2.1.1"
   }
