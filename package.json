@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/opentable/ot-dtp-standalone.git"
   },
-  "description": "Standalone opentable date time partysize picker component, designed to work on external websites.",
+  "description": "Standalone opentable date time party size picker component, designed to work on external websites.",
   "main": "lib/index.js",
   "scripts": {
     "start": "gulp",
@@ -33,14 +33,13 @@
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.7",
     "joi": "^7.0.0",
+    "require-directory": "^2.1.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.5.0"
   },
   "dependencies": {
-    "lodash": "^3.10.1",
     "mercury": "^14.0.0",
     "month-days": "^1.0.0",
-    "ramda": "^0.18.0",
-    "require-directory": "^2.1.1"
+    "ramda": "^0.18.0"
   }
 }
