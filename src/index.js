@@ -47,12 +47,11 @@ function buildInitialViewModel() {
 }
 
 function mouseoutDay(state, dayIndex) {
-  console.log('loc1');
-  // state.viewModel.highlightedDayIndex.set(highlightedDayIndex);
+  state.viewModel.highlightedDayIndex.set(null);
 }
 
 function mouseoverDay(state, dayIndex) {
-  console.log('loc2');
+  state.viewModel.highlightedDayIndex.set(dayIndex);
 }
 
 function getInitialAppState() {
