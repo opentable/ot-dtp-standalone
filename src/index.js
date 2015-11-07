@@ -1,46 +1,104 @@
 var hg = require('mercury');
-var h = hg.h;
 var pickerForm = require('./components/picker-form');
+var utils = require('./utils');
+var forEach = require('ramda/src/forEach');
+var merge = require('ramda/src/merge');
+
+var now = new Date();
+var currentDay = now.getDay();
+var currentMonth = now.getMonth();
+var currentYear = now.getFullYear();
+var generateMonth = utils.generateMonthFactory(currentDay, currentMonth, currentYear);
+
+var h = hg.h;
 
 function buildInitialViewModel() {
-  return {
+
+  var initialViewModel = {
+    autocompletePlaceholder: 'Location or Restaurant',
+    date: '2015-10-10',
+    displayedMonth: hg.value(currentMonth),
+    findATable: 'Find a Table',
+    language: 'en',
+    partySize: 2,
+    partySizeLargerParty: 'Larger party',
+    partySizePlural: '2 people',
+    partySizeSingular: '1 person',
+    // should be the index of the td highlighted by the user's mouse
+    highlightedDayIndex: hg.value(null),
+    selectedDate: hg.struct({
+      isSelected: hg.value(true),
+      year: hg.value(2015),
+      month: hg.value(currentMonth),
+      day: hg.value(currentDay)
+    }),
+    showLargerParty: true,
     showSearch: false,
     time: '23:30',
-    date: '2015-10-10',
-    partySize: 2,
-    timeOptions: [
-      {
-        value: '23:30',
-        displayValue: '23:30',
-      }
-    ],
-    partySizeSingular: '1 person',
-    partySizePlural: '2 people',
-    partySizeLargerParty: 'Larger party',
-    findATable: 'Find a Table',
-    autocompletePlaceholder: 'Location or Restaurant',
+    timeOptions: [{ value: '23:30', displayValue: '23:30' }],
     timezoneOffset: -420,
-    language: 'en',
-    showLargerParty: true
-  }
+    years: {}
+  };
+
+  initialViewModel.years[currentYear] = {};
+  initialViewModel.years[currentYear][currentMonth] = generateMonth(currentMonth, currentYear);
+  return initialViewModel;
+
+}
+
+function mouseoutDay(state, dayIndex) {
+  console.log('loc1');
+  // state.viewModel.highlightedDayIndex.set(highlightedDayIndex);
+}
+
+function mouseoverDay(state, dayIndex) {
+  console.log('loc2');
 }
 
 function getInitialAppState() {
   return hg.state({
     viewModel: hg.struct(buildInitialViewModel()),
-    channels: {}
+    channels: {
+      mouseoverDay: mouseoverDay,
+      mouseoutDay: mouseoutDay
+    }
   });
 }
-
 
 function render(state) {
   return pickerForm(state);
 }
 
+var additionalEvents = ['mouseover', 'mouseout'];
+
+function app(elem, observ, render, opts) {
+  if (!elem) {
+    throw new Error(
+      'Element does not exist. ' +
+      'Mercury cannot be initialized.');
+  }
+
+  var delegator = hg.Delegator(opts);
+  forEach(function registerEvent(event) {
+    console.log('loc4', event);
+    delegator.listenTo(event);
+  }, additionalEvents);
+
+  var loop = hg.main(observ(), render, merge({
+    diff: hg.diff,
+    create: hg.create,
+    patch: hg.patch
+  }, opts));
+
+  elem.appendChild(loop.target);
+
+  return observ(loop.update);
+}
+
 module.exports = {
   render: function(selector) {
     var el = document.querySelector(selector);
-    hg.app(el, getInitialAppState(), render);
+    app(el, getInitialAppState(), render);
   }
 };
 

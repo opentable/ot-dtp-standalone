@@ -19,9 +19,3 @@ module.exports = function datePicker(state) {
     popUp(state)
   ]);
 }
-
-// module.exports = {
-//   // render: ,
-//   // initialState: ,
-//   // channels: ,
-// }
