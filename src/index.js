@@ -1,7 +1,6 @@
 var hg = require('mercury');
 var pickerForm = require('./components/picker-form');
 var utils = require('./utils');
-var forEach = require('ramda/src/forEach');
 var merge = require('ramda/src/merge');
 
 var now = new Date();
@@ -98,9 +97,9 @@ function app(elem, observ, render, opts) {
   }
 
   var delegator = hg.Delegator(opts);
-  forEach(function registerEvent(event) {
-    delegator.listenTo(event);
-  }, additionalEvents);
+  for (i = 0; i < additionalEvents.length; i++) {
+    delegator.listenTo(additionalEvents[i]);
+  }
 
   var loop = hg.main(observ(), render, merge({
     diff: hg.diff,
