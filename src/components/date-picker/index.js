@@ -1,6 +1,8 @@
-var h = require('mercury').h;
+var hg = require('mercury');
 var buildStyle = require('../../build-style');
 var popUp = require('./pop-up');
+
+var h = hg.h;
 
 var styles = {
   datePicker: buildStyle({
@@ -11,7 +13,8 @@ var styles = {
 
 module.exports = function datePicker(state) {
   return h('div', {
-    style: styles.datePicker
+    style: styles.datePicker,
+    'ev-click': hg.send(state.channels.toggleDatePicker)
   }, [
     h('a', {
       style: styles.datePickerLink

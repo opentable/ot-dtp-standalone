@@ -21,6 +21,7 @@ function buildInitialViewModel(opts) {
   var initialViewModel = {
     autocompletePlaceholder: 'Location or Restaurant',
     date: '2015-10-10',
+    open: hg.value(false),
     viewportDimensions: hg.struct({
       width: hg.value(opts.viewportDimensions.width),
       height: hg.value(opts.viewportDimensions.height)
@@ -79,12 +80,17 @@ function mouseoverDay(state, dayIndex) {
   state.viewModel.highlightedDayIndex.set(dayIndex);
 }
 
+function toggleDatePicker(state) {
+  state.viewModel.open.set(!state.viewModel.open());
+}
+
 function getInitialAppState(opts) {
   return hg.state({
     viewModel: hg.struct(buildInitialViewModel(opts)),
     channels: {
       mouseoverDay: mouseoverDay,
       mouseoutDay: mouseoutDay,
+      toggleDatePicker: toggleDatePicker,
       // resizeViewport: resizeViewport,
       // scroll: scroll,
       nextMonth: nextMonth,

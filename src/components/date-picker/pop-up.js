@@ -70,8 +70,11 @@ module.exports = function popUp(state) {
     return h('th', day);
   });
 
+  var visibility = !state.viewModel.open ? 'hidden' : 'visible';
+  var popUpStyle = merge(styles.popUp, { visibility: visibility });
+
   return h('div', {
-    style: styles.popUp
+    style: popUpStyle
   }, [
     h('div', {
       style: styles.popUpHeader
