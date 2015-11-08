@@ -16,11 +16,19 @@ function setMonth(collection, month, year) {
   collection[year][month] = generateMonth(month, year);
 }
 
-function buildInitialViewModel() {
+function buildInitialViewModel(opts) {
 
   var initialViewModel = {
     autocompletePlaceholder: 'Location or Restaurant',
     date: '2015-10-10',
+    viewportDimensions: hg.struct({
+      width: hg.value(opts.viewportDimensions.width),
+      height: hg.value(opts.viewportDimensions.height)
+    }),
+    position: hg.struct({
+      x: hg.value(opts.position.x),
+      y: hg.value(opts.position.y)
+    }),
     displayedDate: hg.struct({
       month: hg.value(currentMonth),
       year: hg.value(currentYear)
@@ -71,12 +79,14 @@ function mouseoverDay(state, dayIndex) {
   state.viewModel.highlightedDayIndex.set(dayIndex);
 }
 
-function getInitialAppState() {
+function getInitialAppState(opts) {
   return hg.state({
-    viewModel: hg.struct(buildInitialViewModel()),
+    viewModel: hg.struct(buildInitialViewModel(opts)),
     channels: {
       mouseoverDay: mouseoverDay,
       mouseoutDay: mouseoutDay,
+      // resizeViewport: resizeViewport,
+      // scroll: scroll,
       nextMonth: nextMonth,
       lastMonth: lastMonth
     }
@@ -101,6 +111,7 @@ function app(elem, observ, render, opts) {
     delegator.listenTo(additionalEvents[i]);
   }
 
+
   var loop = hg.main(observ(), render, merge({
     diff: hg.diff,
     create: hg.create,
@@ -112,10 +123,45 @@ function app(elem, observ, render, opts) {
   return observ(loop.update);
 }
 
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+
+    while(element) {
+        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+        element = element.offsetParent;
+    }
+    return { x: xPosition, y: yPosition };
+}
+
+function getViewportDimensions() {
+  var elem = (document.compatMode === "CSS1Compat") ?
+      document.documentElement :
+      document.body;
+
+  return {
+    height: elem.clientHeight,
+    width: elem.clientWidth
+  };
+}
+
 module.exports = {
   render: function(selector) {
     var el = document.querySelector(selector);
-    app(el, getInitialAppState(), render);
+
+    var opts = {
+      viewportDimensions: getViewportDimensions(),
+      position: getPosition(el)
+    };
+    var state = getInitialAppState(opts);
+
+    // window.addEventListener("optimizedScroll", function() {
+    //   var position = getPosition(el);
+    //   var viewportDimensions = getViewportDimensions();
+    // });
+
+    app(el, state, render);
   }
 };
 
