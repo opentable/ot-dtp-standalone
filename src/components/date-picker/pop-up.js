@@ -37,9 +37,10 @@ var styles = {
 };
 
 module.exports = function popUp(state) {
+  var displayedDate = state.viewModel.displayedDate;
   var month = state
     .viewModel
-    .years[2015][state.viewModel.displayedMonth];
+    .years[displayedDate.year][displayedDate.month];
 
   var dayIndex = 0;
   // use on mouseover
@@ -74,7 +75,27 @@ module.exports = function popUp(state) {
   }, [
     h('div', {
       style: styles.popUpHeader
-    }, [month.name]),
+    }, [
+      month.name,
+      h('div', {
+        style: {
+          width: '30px',
+          height: '30px',
+          float: 'left',
+          backgroundColor: 'black'
+        },
+        'ev-click': hg.send(state.channels.lastMonth)
+      }),
+      h('div', {
+        style: {
+          height: '30px',
+          width: '30px',
+          float: 'right',
+          backgroundColor: 'black'
+        },
+        'ev-click': hg.send(state.channels.nextMonth)
+      })
+    ]),
 
     h('table', {
       style: styles.popUpTable

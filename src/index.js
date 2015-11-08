@@ -12,12 +12,20 @@ var generateMonth = utils.generateMonthFactory(currentDay, currentMonth, current
 
 var h = hg.h;
 
+function setMonth(collection, month, year) {
+  collection[year] = collection[currentYear] || {};
+  collection[year][month] = generateMonth(month, year);
+}
+
 function buildInitialViewModel() {
 
   var initialViewModel = {
     autocompletePlaceholder: 'Location or Restaurant',
     date: '2015-10-10',
-    displayedMonth: hg.value(currentMonth),
+    displayedDate: hg.struct({
+      month: hg.value(currentMonth),
+      year: hg.value(currentYear)
+    }),
     findATable: 'Find a Table',
     language: 'en',
     partySize: 2,
@@ -40,10 +48,20 @@ function buildInitialViewModel() {
     years: {}
   };
 
-  initialViewModel.years[currentYear] = {};
-  initialViewModel.years[currentYear][currentMonth] = generateMonth(currentMonth, currentYear);
+  setMonth(initialViewModel.years, currentMonth, currentYear);
   return initialViewModel;
+}
 
+function nextMonth(state) {
+  var nextDate = utils.getNextDate(state.viewModel.displayedDate.month(), state.viewModel.displayedDate.year());
+  setMonth(state.viewModel.years, nextDate.month, nextDate.year);
+  state.viewModel.displayedDate.set(nextDate);
+}
+
+function lastMonth(state) {
+  var lastDate = utils.getLastDate(state.viewModel.displayedDate.month(), state.viewModel.displayedDate.year());
+  setMonth(state.viewModel.years, lastDate.month, lastDate.year);
+  state.viewModel.displayedDate.set(lastDate);
 }
 
 function mouseoutDay(state, dayIndex) {
@@ -59,7 +77,9 @@ function getInitialAppState() {
     viewModel: hg.struct(buildInitialViewModel()),
     channels: {
       mouseoverDay: mouseoverDay,
-      mouseoutDay: mouseoutDay
+      mouseoutDay: mouseoutDay,
+      nextMonth: nextMonth,
+      lastMonth: lastMonth
     }
   });
 }
@@ -79,7 +99,6 @@ function app(elem, observ, render, opts) {
 
   var delegator = hg.Delegator(opts);
   forEach(function registerEvent(event) {
-    console.log('loc4', event);
     delegator.listenTo(event);
   }, additionalEvents);
 
