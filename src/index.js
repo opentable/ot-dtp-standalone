@@ -21,15 +21,9 @@ function buildInitialViewModel(opts) {
   var initialViewModel = {
     autocompletePlaceholder: 'Location or Restaurant',
     date: '2015-10-10',
-    open: hg.value(false),
-    viewportDimensions: hg.struct({
-      width: hg.value(opts.viewportDimensions.width),
-      height: hg.value(opts.viewportDimensions.height)
-    }),
-    position: hg.struct({
-      x: hg.value(opts.position.x),
-      y: hg.value(opts.position.y)
-    }),
+    open: hg.value(true),
+    isDatePickerTop: hg.value(opts.isElementInBottomHalf || 'false'),
+    isElementInBottomHalf: hg.value(opts.isElementInBottomHalf || 'false'),
     displayedDate: hg.struct({
       month: hg.value(currentMonth),
       year: hg.value(currentYear)
@@ -81,6 +75,7 @@ function mouseoverDay(state, dayIndex) {
 }
 
 function toggleDatePicker(state) {
+  state.viewModel.isDatePickerTop.set(state.viewModel.isElementInBottomHalf());
   state.viewModel.open.set(!state.viewModel.open());
 }
 
@@ -117,7 +112,6 @@ function app(elem, observ, render, opts) {
     delegator.listenTo(additionalEvents[i]);
   }
 
-
   var loop = hg.main(observ(), render, merge({
     diff: hg.diff,
     create: hg.create,
@@ -130,21 +124,21 @@ function app(elem, observ, render, opts) {
 }
 
 function getPosition(element) {
-    var xPosition = 0;
-    var yPosition = 0;
+  var xPosition = 0;
+  var yPosition = 0;
 
-    while(element) {
-        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-        element = element.offsetParent;
-    }
-    return { x: xPosition, y: yPosition };
+  while(element) {
+    xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+    yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+    element = element.offsetParent;
+  }
+  return { x: xPosition, y: yPosition };
 }
 
 function getViewportDimensions() {
   var elem = (document.compatMode === "CSS1Compat") ?
-      document.documentElement :
-      document.body;
+    document.documentElement :
+    document.body;
 
   return {
     height: elem.clientHeight,
@@ -152,20 +146,61 @@ function getViewportDimensions() {
   };
 }
 
+function getPageOffset() {
+  var supportPageOffset = window.pageXOffset !== undefined;
+  var isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
+
+  var x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft;
+  var y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop;
+
+  return { x: x, y: y };
+}
+
+function getIsElementInBottomHalf(el) {
+  var viewportDimensions = getViewportDimensions();
+  var position = getPosition(el);
+  var pageOffset = getPageOffset();
+
+  return position.y > viewportDimensions.height / 2;
+}
+
 module.exports = {
   render: function(selector) {
     var el = document.querySelector(selector);
 
+    var isElementInBottomHalf = getIsElementInBottomHalf(el);
+
     var opts = {
-      viewportDimensions: getViewportDimensions(),
-      position: getPosition(el)
+      isElementInBottomHalf: isElementInBottomHalf,
     };
     var state = getInitialAppState(opts);
 
-    // window.addEventListener("optimizedScroll", function() {
-    //   var position = getPosition(el);
-    //   var viewportDimensions = getViewportDimensions();
-    // });
+    var timer;
+    window.onscroll = function() {
+      if(timer) {
+        window.clearTimeout(timer);
+      }
+
+      timer = window.setTimeout(function() {
+        state.viewModel.isElementInBottomHalf.set(getIsElementInBottomHalf(el));
+      }, 100);
+    };
+
+    window.onresize = function() {
+      if(timer) {
+        window.clearTimeout(timer);
+      }
+
+      timer = window.setTimeout(function() {
+        state.viewModel.isElementInBottomHalf.set(getIsElementInBottomHalf(el));
+      }, 100);
+    };
+
+//     window.addEventListener("optimizedScroll", function() {
+//       pageOffset = getPageOffset();
+//       console.log('loc1', pageOffset.y);
+//       state.viewModel.pageOffsetY.set(pageOffset.y);
+//     });
 
     app(el, state, render);
   }
