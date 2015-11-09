@@ -13,11 +13,11 @@ var styles = {
 
 module.exports = function datePicker(state) {
   return h('div', {
-    style: styles.datePicker,
-    'ev-click': hg.send(state.channels.toggleDatePicker)
+    style: styles.datePicker
   }, [
     h('a', {
-      style: styles.datePickerLink
+      style: styles.datePickerLink,
+      'ev-click': hg.send(state.channels.toggleDatePicker)
     }, 'Oct 29, 2015'),
     popUp(state)
   ]);

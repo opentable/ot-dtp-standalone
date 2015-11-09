@@ -6,7 +6,7 @@ var h = hg.h;
 var styles = {
   popUp: {
     width: '22em',
-    maxHeight: '22em',
+    height: '18em',
     position: 'absolute',
     left: 'calc(50% - 11rem)',
     borderRadius: '3px',
@@ -70,8 +70,12 @@ module.exports = function popUp(state) {
     return h('th', day);
   });
 
-  var visibility = !state.viewModel.open ? 'hidden' : 'visible';
-  var popUpStyle = merge(styles.popUp, { visibility: visibility });
+  var extendedPopUpStyle = {};
+  if (state.viewModel.isDatePickerTop) {
+    extendedPopUpStyle.top = '-' + styles.popUp.height;
+  }
+  extendedPopUpStyle.visibility = !state.viewModel.open ? 'hidden' : 'visible';
+  var popUpStyle = merge(styles.popUp, extendedPopUpStyle);
 
   return h('div', {
     style: popUpStyle

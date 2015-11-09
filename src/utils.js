@@ -34,7 +34,6 @@ function getLastDate(month, year) {
   };
 }
 
-
 function generateMonthFactory(currentDay, currentMonth, currentYear) {
   return function generateMonth(month, year) {
     var lastDate = getLastDate(month, year);
