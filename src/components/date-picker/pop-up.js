@@ -43,7 +43,7 @@ module.exports = function popUp(state) {
     .viewModel
     .years[displayedDate.year][displayedDate.month];
 
-  var translation = translations[state.viewModel.language] || translations['en-US'];
+  var translation = merge(translations['en-US'], translations[state.viewModel.language] || {});
 
   var dayIndex = 0;
   // use on mouseover
