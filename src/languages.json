@@ -1,0 +1,37 @@
+{
+  "de": {
+    "partySingular": "{0} Person",
+    "partyPlural": "{0} Personen",
+    "partyLarger": "20+ Personen",
+    "findATable": "Tisch Finden",
+    "textPlaceholder": "Ort oder Restaurant eingeben"
+  },
+  "en": {
+    "partySingular": "{0} person",
+    "partyPlural": "{0} people",
+    "partyLarger": "Larger party",
+    "findATable": "Find a Table",
+    "textPlaceholder": "Location or Restaurant"
+  },
+  "es": {
+    "partySingular": "{0} persona",
+    "partyPlural": "{0} personas",
+    "partyLarger": "20+ personas",
+    "findATable": "Buscar Mesa",
+    "textPlaceholder": "Ubicación o nombre de Restaurante"
+  },
+  "fr": {
+    "partySingular": "{0} personne",
+    "partyPlural": "{0} personnes",
+    "partyLarger": "20+ personnes",
+    "findATable": "Trouver une Table",
+    "textPlaceholder": "Location or Restaurant"
+  },
+  "ja": {
+    "partySingular": "{0}名",
+    "partyPlural": "{0}名",
+    "partyLarger": "20+名",
+    "findATable": "空席を検索する",
+    "textPlaceholder": "エリアや店名を入力してください"
+  }
+}
