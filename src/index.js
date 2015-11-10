@@ -29,7 +29,7 @@ function buildInitialViewModel(opts) {
       year: hg.value(currentYear)
     }),
     findATable: 'Find a Table',
-    language: 'en',
+    language: 'en-US',
     partySize: 2,
     partySizeLargerParty: 'Larger party',
     partySizePlural: '2 people',

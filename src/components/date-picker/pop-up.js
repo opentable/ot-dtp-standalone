@@ -1,6 +1,7 @@
 var hg = require('mercury');
 var splitEvery = require('ramda/src/splitEvery');
 var merge = require('ramda/src/merge');
+var translations = require('./translations');
 
 var h = hg.h;
 var styles = {
@@ -42,6 +43,8 @@ module.exports = function popUp(state) {
     .viewModel
     .years[displayedDate.year][displayedDate.month];
 
+  var translation = translations[state.viewModel.language] || translations['en-US'];
+
   var dayIndex = 0;
   // use on mouseover
   var dayTrs = splitEvery(7, month.displayedDays)
@@ -66,7 +69,7 @@ module.exports = function popUp(state) {
     });
 
   // FIXME: start week based on setting
-  var dayThs = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(function buildDayTh(day) {
+  var dayThs = translation.weekdaysShort.map(function buildDayTh(day) {
     return h('th', day);
   });
 
