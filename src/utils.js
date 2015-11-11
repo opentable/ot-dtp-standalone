@@ -81,7 +81,7 @@ function generateMonthFactory(currentDay, currentMonth, currentYear) {
 }
 
 module.exports = {
-  generateMonthFactory,
-  getLastDate,
-  getNextDate
+  generateMonthFactory: generateMonthFactory,
+  getLastDate: getLastDate,
+  getNextDate: getNextDate
 };
