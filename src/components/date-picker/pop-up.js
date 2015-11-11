@@ -2,10 +2,11 @@ var hg = require('mercury');
 var splitEvery = require('ramda/src/splitEvery');
 var merge = require('ramda/src/merge');
 var translations = require('./translations');
+var buildStyle = require('./build-style');
 
 var h = hg.h;
 var styles = {
-  popUp: {
+  popUp: buildStyle({
     width: '22em',
     height: '18em',
     position: 'absolute',
@@ -14,13 +15,12 @@ var styles = {
     boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
     padding: '1em',
     boxSizing: 'border-box',
-  },
-  popUpHeader: {
-    boxSizing: 'border-box',
+  }),
+  popUpHeader: buildStyle({
     textAlign: 'center',
     position: 'relative'
-  },
-  popUpTable: {
+  }),
+  popUpTable: buildStyle({
     boxSizing: 'border-box',
     textAlign: 'center',
     borderCollapse: 'collapse',
@@ -29,14 +29,25 @@ var styles = {
     fontSize: 'inherit',
     width: '100%',
     marginTop: '1rem',
-  },
-  dayTd: {
+  }),
+  dayTd: buildStyle({
+    lineHeight: 1.95
+  }),
+  dayTdContent: buildStyle({
+    margin: '0 auto',
     height: '2em',
     width: '2em',
-    lineHeight: 1.95
-  }
+    borderRadius: '100%'
+  })
 };
 
+var colors = {
+  primary: '#DA3743',
+  faded: '#f7d7d9'
+};
+
+// selected background color: #DA3743
+//
 module.exports = function popUp(state) {
   var displayedDate = state.viewModel.displayedDate;
   var month = state
@@ -50,17 +61,18 @@ module.exports = function popUp(state) {
   var dayTrs = splitEvery(7, month.displayedDays)
     .map(function trFromWeek(week) {
       var dayTds = week.map(function tdFromDay(day) {
-        var style = state.viewModel.highlightedDayIndex === dayIndex ?
-          merge(styles.dayTd, {
-            backgroundColor: 'red'
+        var styleTdContent = state.viewModel.highlightedDayIndex === dayIndex ?
+          merge(styles.dayTdContent, {
+            backgroundColor: colors.faded,
+            color: colors.primary
           }) :
-          styles.dayTd;
+          styles.dayTdContent;
 
         var td = h('td', {
-          style: style,
+          style: styles.dayTd,
           'ev-mouseout': hg.send(state.channels.mouseoutDay, dayIndex),
           'ev-mouseover': hg.send(state.channels.mouseoverDay, dayIndex),
-        }, String(day.dayOfMonth));
+        }, h('div', { style: styleTdContent }, String(day.dayOfMonth)));
 
         dayIndex++;
         return td;
@@ -77,7 +89,15 @@ module.exports = function popUp(state) {
   if (state.viewModel.isDatePickerTop) {
     extendedPopUpStyle.top = '-' + styles.popUp.height;
   }
-  extendedPopUpStyle.visibility = !state.viewModel.open ? 'hidden' : 'visible';
+
+  if (!state.viewModel.open) {
+    extendedPopUpStyle.height = 0;
+    extendedPopUpStyle.opacity = 0;
+    var translateY = state.viewModel.isElementInBottomHalf ? '1' : '-1';
+    extendedPopUpStyle.transform = 'translateY(' + translateY + 'em) perspective(600px)';
+  } else {
+    extendedPopUpStyle.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out, position 0.15s ease-out, height 0s 0.15s';
+  }
   var popUpStyle = merge(styles.popUp, extendedPopUpStyle);
 
   return h('div', {
@@ -86,7 +106,7 @@ module.exports = function popUp(state) {
     h('div', {
       style: styles.popUpHeader
     }, [
-      month.name,
+      translation.monthsFull[displayedDate.month] + ' ' + displayedDate.year,
       h('div', {
         style: {
           width: '30px',
@@ -110,7 +130,7 @@ module.exports = function popUp(state) {
     h('table', {
       style: styles.popUpTable
     }, [
-      h('thead', h('tr', dayThs)),
+      h('thead', h('tr', { style: { height: '2em' } }, dayThs)),
       h('tbody', dayTrs)
     ])
   ]);
