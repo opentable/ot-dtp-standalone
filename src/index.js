@@ -29,10 +29,10 @@ function buildInitialViewModel(opts) {
       year: hg.value(currentYear)
     }),
     findATable: 'Find a Table',
-    language: 'en-US',
-    // language: 'fr-FR',
-    // language: 'es-ES',
-    // language: 'ja-JP',
+    // locale: 'en-US',
+    // language: 'en',
+    locale: 'ja-JP',
+    language: 'ja',
     partySize: 2,
     partySizeLargerParty: 'Larger party',
     partySizePlural: '2 people',
@@ -78,14 +78,21 @@ function mouseoverDay(state, dayIndex) {
 }
 
 function toggleDatePicker(state) {
-  state.viewModel.isDatePickerTop.set(state.viewModel.isElementInBottomHalf());
+  if (!state.viewModel.open()) {
+    state.viewModel.isDatePickerTop.set(state.viewModel.isElementInBottomHalf());
+  }
   state.viewModel.open.set(!state.viewModel.open());
+}
+
+function relativePositionChange(state, isElementInBottomHalf) {
+  state.viewModel.isElementInBottomHalf.set(isElementInBottomHalf);
 }
 
 function getInitialAppState(opts) {
   return hg.state({
     viewModel: hg.struct(buildInitialViewModel(opts)),
     channels: {
+      relativePositionChange: relativePositionChange,
       mouseoverDay: mouseoverDay,
       mouseoutDay: mouseoutDay,
       toggleDatePicker: toggleDatePicker,
@@ -185,7 +192,7 @@ module.exports = {
       }
 
       timer = window.setTimeout(function() {
-        state.viewModel.isElementInBottomHalf.set(getIsElementInBottomHalf(el));
+        relativePositionChange(state, getIsElementInBottomHalf(el));
       }, 100);
     };
 
@@ -195,7 +202,7 @@ module.exports = {
       }
 
       timer = window.setTimeout(function() {
-        state.viewModel.isElementInBottomHalf.set(getIsElementInBottomHalf(el));
+        relativePositionChange(state, getIsElementInBottomHalf(el));
       }, 100);
     };
 

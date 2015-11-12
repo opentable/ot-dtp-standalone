@@ -54,7 +54,7 @@ module.exports = function popUp(state) {
     .viewModel
     .years[displayedDate.year][displayedDate.month];
 
-  var translation = merge(translations['en-US'], translations[state.viewModel.language] || {});
+  var translation = merge(translations['en-US'], translations[state.viewModel.locale] || {});
 
   var dayIndex = 0;
   // use on mouseover
@@ -92,11 +92,10 @@ module.exports = function popUp(state) {
   if (!state.viewModel.open) {
     extendedPopUpStyle.height = 0;
     extendedPopUpStyle.opacity = 0;
-    var translateY = state.viewModel.isElementInBottomHalf ? '1' : '-1';
+    var translateY = state.viewModel.isDatePickerTop ? '1' : '-1';
     extendedPopUpStyle.transform = 'translateY(' + translateY + 'em) perspective(600px)';
-  } else {
-    extendedPopUpStyle.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out, position 0.15s ease-out, height 0s 0.15s';
   }
+  extendedPopUpStyle.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out, position 0.15s ease-out, height 0s 0.15s';
   var popUpStyle = merge(styles.popUp, extendedPopUpStyle);
 
   return h('div', {

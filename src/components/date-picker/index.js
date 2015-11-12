@@ -2,6 +2,7 @@ var hg = require('mercury');
 var buildStyle = require('../../build-style');
 var popUp = require('./pop-up');
 var dateFormat = require('dateformat');
+var languages = require('../../languages');
 var translations = require('./translations');
 
 var h = hg.h;
@@ -16,7 +17,8 @@ var styles = {
 module.exports = function datePicker(state) {
   var selectedDate = state.viewModel.selectedDate;
   var date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
-  var translation = translations[state.viewModel.language];
+  var language = languages[state.viewModel.language];
+  var translation = translations[state.viewModel.locale];
 
   // FIXME: should only have to run on state initialization
   dateFormat.i18n = {
@@ -30,7 +32,7 @@ module.exports = function datePicker(state) {
     h('a', {
       style: styles.datePickerLink,
       'ev-click': hg.send(state.channels.toggleDatePicker)
-    }, dateFormat(date, translation.format)),
+    }, dateFormat(date, language.dateFormat)),
     // }, dateFormat(date, 'd mmmm, yyyy')),
     popUp(state)
   ]);

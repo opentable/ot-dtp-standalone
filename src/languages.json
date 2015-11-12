@@ -1,5 +1,6 @@
 {
   "de": {
+    "dateFormat": "d mmm yyyy",
     "partySingular": "{0} Person",
     "partyPlural": "{0} Personen",
     "partyLarger": "20+ Personen",
@@ -7,6 +8,7 @@
     "textPlaceholder": "Ort oder Restaurant eingeben"
   },
   "en": {
+    "dateFormat": "mmm d, yyyy",
     "partySingular": "{0} person",
     "partyPlural": "{0} people",
     "partyLarger": "Larger party",
@@ -14,6 +16,7 @@
     "textPlaceholder": "Location or Restaurant"
   },
   "es": {
+    "dateFormat": "d mmm yyyy",
     "partySingular": "{0} persona",
     "partyPlural": "{0} personas",
     "partyLarger": "20+ personas",
@@ -21,6 +24,7 @@
     "textPlaceholder": "Ubicación o nombre de Restaurante"
   },
   "fr": {
+    "dateFormat": "d mmm yyyy",
     "partySingular": "{0} personne",
     "partyPlural": "{0} personnes",
     "partyLarger": "20+ personnes",
@@ -28,6 +32,7 @@
     "textPlaceholder": "Location or Restaurant"
   },
   "ja": {
+    "dateFormat": "yyyy/m/d",
     "partySingular": "{0}名",
     "partyPlural": "{0}名",
     "partyLarger": "20+名",
