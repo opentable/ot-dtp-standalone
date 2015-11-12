@@ -1,0 +1,84 @@
+{
+  "com": {
+    "en": {
+      "calendarStartsSunday": true,
+      "dateFormat": "mmm d, yyyy",
+      "timeFormat": "h:mm A",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    },
+    "fr": {
+      "calendarStartsSunday": true,
+      "dateFormat": "d mmm yyyy",
+      "timeFormat": "h:mm A",
+      "today": "Aujourd'hui",
+      "tomorrow": "Demain"
+    }
+  },
+  "couk": {
+    "en": {
+      "calendarStartsSunday": false,
+      "dateFormat": "d mmm yyyy",
+      "timeFormat": "HH:mm",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    }
+  },
+  "de": {
+    "de": {
+      "calendarStartsSunday": false,
+      "dateFormat": "d mmm yyyy",
+      "timeFormat": "HH:mm",
+      "today": "Heute",
+      "tomorrow": "Morgen"
+    },
+    "en": {
+      "calendarStartsSunday": false,
+      "dateFormat": "d mmm yyyy",
+      "timeFormat": "HH:mm",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    }
+  },
+  "ie": {
+    "en": {
+      "calendarStartsSunday": false,
+      "dateFormat": "d mmm yyyy",
+      "timeFormat": "HH:mm",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    }
+  },
+  "jp": {
+    "en": {
+      "calendarStartsSunday": true,
+      "dateFormat": "mmm d, yyyy",
+      "timeFormat": "HH:mm",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    },
+    "ja": {
+      "calendarStartsSunday": true,
+      "dateFormat": "yyyy/m/d",
+      "timeFormat": "HH:mm",
+      "today": "今日",
+      "tomorrow": "明日"
+    }
+  },
+  "mx": {
+    "en": {
+      "calendarStartsSunday": true,
+      "dateFormat": "d mmm yyyy",
+      "timeFormat": "h:mm A",
+      "today": "Today",
+      "tomorrow": "Tomorrow"
+    },
+    "es": {
+      "calendarStartsSunday": true,
+      "dateFormat": "d mmm yyyy",
+      "timeFormat": "h:mm A",
+      "today": "Hoy",
+      "tomorrow": "Mañana"
+    }
+  }
+}

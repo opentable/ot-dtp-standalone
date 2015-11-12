@@ -29,9 +29,9 @@ function buildInitialViewModel(opts) {
       year: hg.value(currentYear)
     }),
     findATable: 'Find a Table',
-    // language: 'en-US',
+    language: 'en-US',
     // language: 'fr-FR',
-    language: 'es-ES',
+    // language: 'es-ES',
     // language: 'ja-JP',
     partySize: 2,
     partySizeLargerParty: 'Larger party',

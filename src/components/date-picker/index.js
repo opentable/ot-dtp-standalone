@@ -18,7 +18,12 @@ module.exports = function datePicker(state) {
   var date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
   var translation = translations[state.viewModel.language];
 
-  debugger;
+  // FIXME: should only have to run on state initialization
+  dateFormat.i18n = {
+    dayNames: translation.weekdaysShort.concat(translation.weekdaysFull),
+    monthNames: translation.monthsShort.concat(translation.monthsFull)
+  };
+
   return h('div', {
     style: styles.datePicker
   }, [
@@ -26,6 +31,7 @@ module.exports = function datePicker(state) {
       style: styles.datePickerLink,
       'ev-click': hg.send(state.channels.toggleDatePicker)
     }, dateFormat(date, translation.format)),
+    // }, dateFormat(date, 'd mmmm, yyyy')),
     popUp(state)
   ]);
 }
