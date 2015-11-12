@@ -80,7 +80,6 @@ module.exports = function popUp(state) {
       return h('tr', dayTds);
     });
 
-  // FIXME: start week based on setting
   var dayThs = translation.weekdaysShort.map(function buildDayTh(day) {
     return h('th', day);
   });
