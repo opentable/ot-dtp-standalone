@@ -34,13 +34,17 @@
     "gulp-util": "^3.0.7",
     "joi": "^7.0.0",
     "require-directory": "^2.1.1",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.5.0"
   },
   "dependencies": {
     "dateformat": "^1.0.11",
+    "function-rate-limit": "^1.0.1",
     "mercury": "^14.0.0",
     "month-days": "^1.0.0",
-    "ramda": "^0.18.0"
+    "ramda": "^0.18.0",
+    "xtend": "^4.0.1"
   }
 }

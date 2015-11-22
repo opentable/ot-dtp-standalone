@@ -1,10 +1,9 @@
-var hg = require('mercury');
+var h = require('stormbringer/h');
 var splitEvery = require('ramda/src/splitEvery');
 var merge = require('ramda/src/merge');
 var translations = require('./translations');
 var buildStyle = require('./build-style');
 
-var h = hg.h;
 var styles = {
   popUp: buildStyle({
     width: '22em',
@@ -48,20 +47,20 @@ var colors = {
 
 // selected background color: #DA3743
 //
-module.exports = function popUp(state) {
-  var displayedDate = state.viewModel.displayedDate;
-  var month = state
-    .viewModel
+module.exports = function popUp(store) {
+  var displayedDate = store.model.displayedDate;
+  var month = store
+    .model
     .years[displayedDate.year][displayedDate.month];
 
-  var translation = merge(translations['en-US'], translations[state.viewModel.locale] || {});
+  var translation = merge(translations['en-US'], translations[store.model.locale] || {});
 
   var dayIndex = 0;
   // use on mouseover
   var dayTrs = splitEvery(7, month.displayedDays)
     .map(function trFromWeek(week) {
       var dayTds = week.map(function tdFromDay(day) {
-        var styleTdContent = state.viewModel.highlightedDayIndex === dayIndex ?
+        var styleTdContent = store.model.highlightedDayIndex === dayIndex ?
           merge(styles.dayTdContent, {
             backgroundColor: colors.faded,
             color: colors.primary
@@ -70,8 +69,8 @@ module.exports = function popUp(state) {
 
         var td = h('td', {
           style: styles.dayTd,
-          'ev-mouseout': hg.send(state.channels.mouseoutDay, dayIndex),
-          'ev-mouseover': hg.send(state.channels.mouseoverDay, dayIndex),
+          onmouseout: function() { store.send({ type: 'mouseout-day', payload: { day: dayIndex } }); },
+          onmouseover: function() { store.send({ type: 'mouseover-day', payload: { day: dayIndex } }); }
         }, h('div', { style: styleTdContent }, String(day.dayOfMonth)));
 
         dayIndex++;
@@ -85,14 +84,14 @@ module.exports = function popUp(state) {
   });
 
   var extendedPopUpStyle = {};
-  if (state.viewModel.isDatePickerTop) {
+  if (store.model.isDatePickerTop) {
     extendedPopUpStyle.top = '-' + styles.popUp.height;
   }
 
-  if (!state.viewModel.open) {
+  if (!store.model.open) {
     extendedPopUpStyle.height = 0;
     extendedPopUpStyle.opacity = 0;
-    var translateY = state.viewModel.isDatePickerTop ? '1' : '-1';
+    var translateY = store.model.isElementInBottomHalf ? 1 : -1;
     extendedPopUpStyle.transform = 'translateY(' + translateY + 'em) perspective(600px)';
   }
   extendedPopUpStyle.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out, position 0.15s ease-out, height 0s 0.15s';
@@ -112,7 +111,7 @@ module.exports = function popUp(state) {
           float: 'left',
           backgroundColor: 'black'
         },
-        'ev-click': hg.send(state.channels.lastMonth)
+        onclick: function() { store.send({ type: 'last-month' }); }
       }),
       h('div', {
         style: {
@@ -121,7 +120,7 @@ module.exports = function popUp(state) {
           float: 'right',
           backgroundColor: 'black'
         },
-        'ev-click': hg.send(state.channels.nextMonth)
+        onclick: function() { store.send({ type: 'next-month' }); }
       })
     ]),
 

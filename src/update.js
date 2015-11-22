@@ -1,10 +1,19 @@
-module.exports = function update(model, action) {
-  switch (action.type) {
-    case 'increment':
-      model.count = model.count + 1;
-      return model;
+var updateByType = require('stormbringer/update-by-type');
 
-    default:
-      return model;
+function toggleOpenDatePicker(model) {
+  if (!model.open) {
+    model.isDatePickerTop = model.isElementInBottomHalf;
   }
-};
+  model.open = !model.open;
+  return model;
+}
+
+function relativePositionChange(model, action) {
+  model.isElementInBottomHalf = action.payload.isElementInBottomHalf;
+  return model;
+}
+
+module.exports = updateByType({
+  toggleOpenDatePicker: toggleOpenDatePicker,
+  relativePositionChange: relativePositionChange
+});

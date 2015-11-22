@@ -1,11 +1,11 @@
-var utils = require(__BASE + '/src/utils');
+var dateUtils = require(__BASE + '/src/date-utils');
 var helper = require('./helper');
 var settings = require(__BASE + '/src/settings');
 
 var expect = helper.expect;
 var joi = helper.joi;
 
-describe('utils', function() {
+describe('dateUtils', function() {
   describe('generateMonthFactory', function() {
     var monthSchema = joi.object({
       name: joi.string(),
@@ -17,7 +17,7 @@ describe('utils', function() {
 
     describe('december 2015', function() {
       var currentDay = 5;
-      var december2015 = utils.generateMonthFactory(currentDay, 11, 2015)(11, 2015);
+      var december2015 = dateUtils.generateMonthFactory(currentDay, 11, 2015)(11, 2015);
 
       var isDisabled = december2015.displayedDays.map(function(day) {
         return day.isDisabled;
@@ -49,7 +49,7 @@ describe('utils', function() {
     });
 
     describe('november 2015', function() {
-      var november2015 = utils.generateMonthFactory(6, 10, 2015)(10, 2015);
+      var november2015 = dateUtils.generateMonthFactory(6, 10, 2015)(10, 2015);
 
       it('starts with november first', function() {
         expect(november2015.displayedDays[0].dayOfMonth).to.equal(1);

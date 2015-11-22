@@ -1,4 +1,4 @@
-var h = require('mercury').h;
+var h = require('stormbringer/h');
 var buildStyle = require('../build-style');
 
 var styles = {
@@ -15,7 +15,7 @@ function option(count) {
   }, count + ' people');
 }
 
-module.exports = function dtpPickerForm(state) {
+module.exports = function dtpPickerForm(store) {
   var options = [1, 2, 3].map(option);
 
   return h('div', {
@@ -23,7 +23,7 @@ module.exports = function dtpPickerForm(state) {
     }, [
       h('a', {
         style: styles.pickerLink
-      }, state.viewModel.partySize + ' people'),
+      }, store.model.partySize + ' people'),
 
       h('select', {
         style: styles.select

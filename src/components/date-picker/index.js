@@ -1,11 +1,10 @@
-var hg = require('mercury');
+var h = require('stormbringer/h');
+var send = require('stormbringer/send');
 var buildStyle = require('../../build-style');
 var popUp = require('./pop-up');
 var dateFormat = require('dateformat');
 var languages = require('../../languages');
 var translations = require('./translations');
-
-var h = hg.h;
 
 var styles = {
   datePicker: buildStyle({
@@ -14,11 +13,11 @@ var styles = {
   datePickerLink: buildStyle({}, ['pickerLabel'])
 };
 
-module.exports = function datePicker(state) {
-  var selectedDate = state.viewModel.selectedDate;
+module.exports = function datePicker(store) {
+  var selectedDate = store.model.selectedDate;
   var date = new Date(selectedDate.year, selectedDate.month, selectedDate.day);
-  var language = languages[state.viewModel.language];
-  var translation = translations[state.viewModel.locale];
+  var language = languages[store.model.language];
+  var translation = translations[store.model.locale];
 
   // FIXME: should only have to run on state initialization
   dateFormat.i18n = {
@@ -31,9 +30,8 @@ module.exports = function datePicker(state) {
   }, [
     h('a', {
       style: styles.datePickerLink,
-      'ev-click': hg.send(state.channels.toggleDatePicker)
+      onclick: send({ store: store,  type: 'toggleOpenDatePicker' }),
     }, dateFormat(date, language.dateFormat)),
-    // }, dateFormat(date, 'd mmmm, yyyy')),
-    popUp(state)
+    popUp(store)
   ]);
 }

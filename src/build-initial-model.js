@@ -1,5 +1,7 @@
+var setMonth = require('./set-month');
+
 module.exports = function buildInitialModel(opts) {
-  return {
+  return setMonth({
     autocompletePlaceholder: 'Location or Restaurant',
     date: '2015-10-10',
     open: true,
@@ -32,5 +34,5 @@ module.exports = function buildInitialModel(opts) {
     timeOptions: [{ value: '23:30', displayValue: '23:30' }],
     timezoneOffset: -420,
     years: {}
-  };
+  }, opts.currentMonth, opts.currentYear);
 };
