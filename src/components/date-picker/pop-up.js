@@ -1,4 +1,5 @@
 var h = require('stormbringer/h');
+var send = require('stormbringer/send');
 var splitEvery = require('ramda/src/splitEvery');
 var merge = require('ramda/src/merge');
 var translations = require('./translations');
@@ -69,8 +70,8 @@ module.exports = function popUp(store) {
 
         var td = h('td', {
           style: styles.dayTd,
-          onmouseout: function() { store.send({ type: 'mouseout-day', payload: { day: dayIndex } }); },
-          onmouseover: function() { store.send({ type: 'mouseover-day', payload: { day: dayIndex } }); }
+          onmouseout: send({ store: store, type: 'changeHighlighted', payload: { dayIndex: null } }),
+          onmouseover: send({ store: store, type: 'changeHighlighted', payload: { dayIndex: dayIndex } })
         }, h('div', { style: styleTdContent }, String(day.dayOfMonth)));
 
         dayIndex++;
@@ -91,7 +92,7 @@ module.exports = function popUp(store) {
   if (!store.model.open) {
     extendedPopUpStyle.height = 0;
     extendedPopUpStyle.opacity = 0;
-    var translateY = store.model.isElementInBottomHalf ? 1 : -1;
+    var translateY = store.model.isDatePickerTop ? 1 : -1;
     extendedPopUpStyle.transform = 'translateY(' + translateY + 'em) perspective(600px)';
   }
   extendedPopUpStyle.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out, position 0.15s ease-out, height 0s 0.15s';
@@ -111,7 +112,7 @@ module.exports = function popUp(store) {
           float: 'left',
           backgroundColor: 'black'
         },
-        onclick: function() { store.send({ type: 'last-month' }); }
+        onclick: send({ store: store, type: 'lastMonth' })
       }),
       h('div', {
         style: {
@@ -120,7 +121,7 @@ module.exports = function popUp(store) {
           float: 'right',
           backgroundColor: 'black'
         },
-        onclick: function() { store.send({ type: 'next-month' }); }
+        onclick: send({ store: store, type: 'nextMonth' })
       })
     ]),
 
