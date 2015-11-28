@@ -2,22 +2,18 @@ var hg = require('mercury');
 var pickerForm = require('./components/picker-form');
 var utils = require('./utils');
 var merge = require('ramda/src/merge');
+var channels = require('./channels');
 
-var now = new Date();
-var currentDay = now.getDay();
-var currentMonth = now.getMonth();
-var currentYear = now.getFullYear();
-var generateMonth = utils.generateMonthFactory(currentDay, currentMonth, currentYear);
+var generateMonth;
 
 var h = hg.h;
 
 function setMonth(collection, month, year) {
-  collection[year] = collection[currentYear] || {};
+  collection[year] = collection[year] || {};
   collection[year][month] = generateMonth(month, year);
 }
 
 function buildInitialViewModel(opts) {
-
   var initialViewModel = {
     autocompletePlaceholder: 'Location or Restaurant',
     date: '2015-10-10',
@@ -25,8 +21,8 @@ function buildInitialViewModel(opts) {
     isDatePickerTop: hg.value(opts.isElementInBottomHalf || 'false'),
     isElementInBottomHalf: hg.value(opts.isElementInBottomHalf || 'false'),
     displayedDate: hg.struct({
-      month: hg.value(currentMonth),
-      year: hg.value(currentYear)
+      month: hg.value(opts.currentMonth),
+      year: hg.value(opts.currentYear)
     }),
     findATable: 'Find a Table',
     // locale: 'en-US',
@@ -42,8 +38,8 @@ function buildInitialViewModel(opts) {
     selectedDate: hg.struct({
       isSelected: hg.value(true),
       year: hg.value(2015),
-      month: hg.value(currentMonth),
-      day: hg.value(currentDay)
+      month: hg.value(opts.currentMonth),
+      day: hg.value(opts.currentDay)
     }),
     showLargerParty: true,
     showSearch: false,
@@ -53,54 +49,14 @@ function buildInitialViewModel(opts) {
     years: {}
   };
 
-  setMonth(initialViewModel.years, currentMonth, currentYear);
+  setMonth(initialViewModel.years, opts.currentMonth, opts.currentYear);
   return initialViewModel;
-}
-
-function nextMonth(state) {
-  var nextDate = utils.getNextDate(state.viewModel.displayedDate.month(), state.viewModel.displayedDate.year());
-  setMonth(state.viewModel.years, nextDate.month, nextDate.year);
-  state.viewModel.displayedDate.set(nextDate);
-}
-
-function lastMonth(state) {
-  var lastDate = utils.getLastDate(state.viewModel.displayedDate.month(), state.viewModel.displayedDate.year());
-  setMonth(state.viewModel.years, lastDate.month, lastDate.year);
-  state.viewModel.displayedDate.set(lastDate);
-}
-
-function mouseoutDay(state, dayIndex) {
-  state.viewModel.highlightedDayIndex.set(null);
-}
-
-function mouseoverDay(state, dayIndex) {
-  state.viewModel.highlightedDayIndex.set(dayIndex);
-}
-
-function toggleDatePicker(state) {
-  if (!state.viewModel.open()) {
-    state.viewModel.isDatePickerTop.set(state.viewModel.isElementInBottomHalf());
-  }
-  state.viewModel.open.set(!state.viewModel.open());
-}
-
-function relativePositionChange(state, isElementInBottomHalf) {
-  state.viewModel.isElementInBottomHalf.set(isElementInBottomHalf);
 }
 
 function getInitialAppState(opts) {
   return hg.state({
     viewModel: hg.struct(buildInitialViewModel(opts)),
-    channels: {
-      relativePositionChange: relativePositionChange,
-      mouseoverDay: mouseoverDay,
-      mouseoutDay: mouseoutDay,
-      toggleDatePicker: toggleDatePicker,
-      // resizeViewport: resizeViewport,
-      // scroll: scroll,
-      nextMonth: nextMonth,
-      lastMonth: lastMonth
-    }
+    channels: channels
   });
 }
 
@@ -180,9 +136,15 @@ module.exports = {
 
     var isElementInBottomHalf = getIsElementInBottomHalf(el);
 
+    var now = new Date();
     var opts = {
       isElementInBottomHalf: isElementInBottomHalf,
+      currentDay: now.getDay(),
+      currentMonth: now.getMonth(),
+      currentYear: now.getFullYear(),
     };
+
+    generateMonth = utils.generateMonthFactory(opts.currentDay, opts.currentMonth, opts.currentYear);
     var state = getInitialAppState(opts);
 
     var timer;
@@ -192,7 +154,7 @@ module.exports = {
       }
 
       timer = window.setTimeout(function() {
-        relativePositionChange(state, getIsElementInBottomHalf(el));
+        channels.relativePositionChange(state, getIsElementInBottomHalf(el));
       }, 100);
     };
 
@@ -202,7 +164,7 @@ module.exports = {
       }
 
       timer = window.setTimeout(function() {
-        relativePositionChange(state, getIsElementInBottomHalf(el));
+        channels.relativePositionChange(state, getIsElementInBottomHalf(el));
       }, 100);
     };
 

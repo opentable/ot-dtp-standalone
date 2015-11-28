@@ -33,7 +33,6 @@ module.exports = function datePicker(state) {
       style: styles.datePickerLink,
       'ev-click': hg.send(state.channels.toggleDatePicker)
     }, dateFormat(date, language.dateFormat)),
-    // }, dateFormat(date, 'd mmmm, yyyy')),
     popUp(state)
   ]);
 }
