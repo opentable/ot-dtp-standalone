@@ -3,6 +3,7 @@ var splitEvery = require('ramda/src/splitEvery');
 var merge = require('ramda/src/merge');
 var translations = require('./translations');
 var buildStyle = require('./build-style');
+var popUpHeader = require('./pop-up-header');
 
 var h = hg.h;
 var styles = {
@@ -15,10 +16,6 @@ var styles = {
     boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
     padding: '1em',
     boxSizing: 'border-box',
-  }),
-  popUpHeader: buildStyle({
-    textAlign: 'center',
-    position: 'relative'
   }),
   popUpTable: buildStyle({
     boxSizing: 'border-box',
@@ -101,29 +98,7 @@ module.exports = function popUp(state) {
   return h('div', {
     style: popUpStyle
   }, [
-    h('div', {
-      style: styles.popUpHeader
-    }, [
-      translation.monthsFull[displayedDate.month] + ' ' + displayedDate.year,
-      h('div', {
-        style: {
-          width: '30px',
-          height: '30px',
-          float: 'left',
-          backgroundColor: 'black'
-        },
-        'ev-click': hg.send(state.channels.lastMonth)
-      }),
-      h('div', {
-        style: {
-          height: '30px',
-          width: '30px',
-          float: 'right',
-          backgroundColor: 'black'
-        },
-        'ev-click': hg.send(state.channels.nextMonth)
-      })
-    ]),
+    popUpHeader(state),
 
     h('table', {
       style: styles.popUpTable
