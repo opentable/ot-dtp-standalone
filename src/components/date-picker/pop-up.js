@@ -4,6 +4,7 @@ var splitEvery = require('ramda/src/splitEvery');
 var merge = require('ramda/src/merge');
 var buildStyle = require('./build-style');
 var popUpHeader = require('./pop-up-header');
+var tableBody = require('./table-body');
 
 var h = hg.h;
 var styles = {
@@ -26,25 +27,9 @@ var styles = {
     fontSize: 'inherit',
     width: '100%',
     marginTop: '1rem',
-  }),
-  dayTd: buildStyle({
-    lineHeight: 1.95
-  }),
-  dayTdContent: buildStyle({
-    margin: '0 auto',
-    height: '2em',
-    width: '2em',
-    borderRadius: '100%'
   })
 };
 
-var colors = {
-  primary: '#DA3743',
-  faded: '#f7d7d9'
-};
-
-// selected background color: #DA3743
-//
 module.exports = function popUp(state) {
   var displayedDate = state.viewModel.displayedDate;
   var month = state
@@ -52,31 +37,6 @@ module.exports = function popUp(state) {
     .years[displayedDate.year][displayedDate.month];
 
   var translation = buildTranslation(state.viewModel.locale);
-
-  var dayIndex = 0;
-  // use on mouseover
-  var dayTrs = splitEvery(7, month.displayedDays)
-    .map(function trFromWeek(week) {
-      var dayTds = week.map(function tdFromDay(day) {
-        var styleTdContent = state.viewModel.highlightedDayIndex === dayIndex ?
-          merge(styles.dayTdContent, {
-            backgroundColor: colors.faded,
-            color: colors.primary
-          }) :
-          styles.dayTdContent;
-
-        var td = h('td', {
-          style: styles.dayTd,
-          'ev-mouseout': hg.send(state.channels.mouseoutDay, dayIndex),
-          'ev-mouseover': hg.send(state.channels.mouseoverDay, dayIndex),
-        }, h('div', { style: styleTdContent }, String(day.dayOfMonth)));
-
-        dayIndex++;
-        return td;
-      });
-      return h('tr', dayTds);
-    });
-
   var dayThs = translation.weekdaysShort.map(function buildDayTh(day) {
     return h('th', day);
   });
@@ -104,7 +64,7 @@ module.exports = function popUp(state) {
       style: styles.popUpTable
     }, [
       h('thead', h('tr', { style: { height: '2em' } }, dayThs)),
-      h('tbody', dayTrs)
+      tableBody(state),
     ])
   ]);
 }
