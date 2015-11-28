@@ -26,6 +26,7 @@ module.exports.watch = {
   task: function() {
     var browserifyOpts = {
       cache: {},
+      fullPaths: true,
       packageCache: {},
       debug: true,
       standalone: config.standaloneName
