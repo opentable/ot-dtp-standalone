@@ -1,7 +1,6 @@
 var hg = require('mercury');
-var translations = require('./translations');
+var buildTranslation = require('./buildTranslation');
 var buildStyle = require('./build-style');
-var merge = require('ramda/src/merge');
 
 var h = hg.h;
 
@@ -12,7 +11,7 @@ var styles = {
   })
 };
 module.exports = function popUpHeader(state) {
-  var translation = merge(translations['en-US'], translations[state.viewModel.locale] || {});
+  var translation = buildTranslation(state.viewModel.locale);
   var displayedDate = state.viewModel.displayedDate;
   var month = state
     .viewModel

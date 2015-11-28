@@ -1,7 +1,7 @@
 var hg = require('mercury');
+var buildTranslation = require('./buildTranslation');
 var splitEvery = require('ramda/src/splitEvery');
 var merge = require('ramda/src/merge');
-var translations = require('./translations');
 var buildStyle = require('./build-style');
 var popUpHeader = require('./pop-up-header');
 
@@ -51,7 +51,7 @@ module.exports = function popUp(state) {
     .viewModel
     .years[displayedDate.year][displayedDate.month];
 
-  var translation = merge(translations['en-US'], translations[state.viewModel.locale] || {});
+  var translation = buildTranslation(state.viewModel.locale);
 
   var dayIndex = 0;
   // use on mouseover
